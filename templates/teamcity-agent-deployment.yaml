@@ -29,3 +29,10 @@ spec:
               value: {{ $teamcity_agent.server_url }}
             - name: AGENT_NAME
               value: {{ $teamcity_agent.name }}
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: {{ $teamcity_agent.name }}-data
+      volumes:
+        - name: {{ $teamcity_agent.name }}-data
+          hostPath:
+            path: /var/run/docker.sock
