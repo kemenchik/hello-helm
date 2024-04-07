@@ -1,0 +1,8 @@
+{{- $configmap:= .Values.configmap -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $configmap.name }}-configmap
+  namespace: {{ $configmap.namespace }}
+data:
+  hello_message: {{ $configmap.hello_message }}

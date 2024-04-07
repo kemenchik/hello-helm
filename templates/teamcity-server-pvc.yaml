@@ -1,0 +1,14 @@
+{{- $teamcity_server:= .Values.teamcity.server -}}
+{{- $configmap:= .Values.configmap -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $teamcity_server.name }}-pvc
+  namespace: {{ $configmap.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 16Gi
+  storageClassName: {{ $teamcity_server.name }}-storage

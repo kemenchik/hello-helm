@@ -1,0 +1,31 @@
+{{- $teamcity_agent:= .Values.teamcity.agent -}}
+{{- $configmap:= .Values.configmap -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $teamcity_agent.name }}-deployment
+  namespace: {{ $configmap.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ $teamcity_agent.name }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ $teamcity_agent.name }}-app
+    spec:
+      containers:
+        - name: {{ $teamcity_agent.name }}-app
+          image: {{ $teamcity_agent.image }}
+          securityContext:
+            runAsUser: 0
+            privileged: true
+          ports:
+            - name: http
+              containerPort: {{ $teamcity_agent.container_port }}
+          env:
+            - name: SERVER_URL
+              value: {{ $teamcity_agent.server_url }}
+            - name: AGENT_NAME
+              value: {{ $teamcity_agent.name }}

@@ -1,0 +1,28 @@
+configmap:
+  name: "hello"
+  namespace: "hello"
+  hello_message: "Config Hello Message!"
+
+ingress:
+  name: "ngrok"
+  host: "%ingress_host_url%"
+
+teamcity:
+  agent:
+    name: "teamcity-agent"
+    image: "jetbrains/teamcity-agent:latest"
+    container_port: "8111"
+    server_url: "%teamcity_server_url%"
+  server:
+    name: "teamcity-server"
+    image: "jetbrains/teamcity-server:latest"
+    container_port: "8111"
+    data_path: "/data/teamcity_server/datadir"
+    log_path: "/opt/teamcity/logs"
+    install_path: "/opt/teamcity"
+
+hello:
+  enabled: "true"
+  name: "hello"
+  image: "%hello-app-image%"
+  container_port: "8080"

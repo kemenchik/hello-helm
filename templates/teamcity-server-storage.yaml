@@ -1,0 +1,10 @@
+{{- $teamcity_server:= .Values.teamcity.server -}}
+{{- $configmap:= .Values.configmap -}}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: {{ $teamcity_server.name }}-storage
+  namespace: {{ $configmap.namespace }}
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain

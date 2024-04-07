@@ -1,0 +1,32 @@
+{{- $teamcity_server:= .Values.teamcity.server -}}
+{{- $configmap:= .Values.configmap -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $teamcity_server.name }}-deployment
+  namespace: {{ $configmap.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ $teamcity_server.name }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ $teamcity_server.name }}-app
+    spec:
+      containers:
+        - name: {{ $teamcity_server.name }}-app
+          image: {{ $teamcity_server.image }}
+          securityContext:
+            runAsUser: 0
+          ports:
+            - name: http
+              containerPort: {{ $teamcity_server.container_port }}
+          volumeMounts:
+            - mountPath: {{ $teamcity_server.data_path }}
+              name: {{ $teamcity_server.name }}-data
+      volumes:
+        - name: {{ $teamcity_server.name }}-data
+          hostPath:
+            path: {{ $teamcity_server.data_path }}

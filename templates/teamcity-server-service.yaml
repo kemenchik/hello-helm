@@ -1,0 +1,15 @@
+{{- $teamcity_server:= .Values.teamcity.server -}}
+{{- $configmap:= .Values.configmap -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $teamcity_server.name }}-service
+  namespace: {{ $configmap.namespace }}
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: {{ $teamcity_server.container_port }}
+  selector:
+    app: {{ $teamcity_server.name }}-app
