@@ -1,10 +1,9 @@
 {{- $app:= .Values.hello -}}
-{{- $configmap:= .Values.configmap -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ $app.name }}-deployment
-  namespace: {{ $configmap.namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -19,8 +18,10 @@ spec:
         - name: {{ $app.name }}-app
           image: {{ $app.image }}
           env:
-            - name: "app.message"
-              value: {{ $configmap.hello_message }}
+          {{- range $key, $val := $app.env }}
+            - name: {{ $val.name | quote }}
+              value: {{ $val.value | quote }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ $app.container_port }}

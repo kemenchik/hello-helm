@@ -1,7 +1,9 @@
-configmap:
+namespace: "hello"
+
+configmap_data:
   name: "hello"
-  namespace: "hello"
-  hello_message: "Config Hello Message!"
+  data:
+    name: "value"
 
 ingress:
   name: "ngrok"
@@ -26,3 +28,6 @@ hello:
   name: "hello"
   image: "%hello-app-image%"
   container_port: "8080"
+  env:
+  - name: "app.message"
+    value: "New value Message!"

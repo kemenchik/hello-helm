@@ -1,10 +1,9 @@
 {{- $teamcity_server:= .Values.teamcity.server -}}
-{{- $configmap:= .Values.configmap -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ $teamcity_server.name }}-service
-  namespace: {{ $configmap.namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
     - name: http

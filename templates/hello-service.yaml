@@ -1,10 +1,10 @@
 {{- $app:= .Values.hello -}}
-{{- $configmap:= .Values.configmap -}}
+{{- $configmap:= .Values.configmap_data -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ $app.name }}-service
-  namespace: {{ $configmap.namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
     - name: http

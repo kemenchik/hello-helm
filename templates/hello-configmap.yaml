@@ -1,8 +1,8 @@
-{{- $configmap:= .Values.configmap -}}
+{{- $configmap:= .Values.configmap_data -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ $configmap.name }}-configmap
-  namespace: {{ $configmap.namespace }}
+  namespace: {{ .Values.namespace }}
 data:
-  hello_message: {{ $configmap.hello_message }}
+  {{- toYaml $configmap.data | nindent 2 }}
